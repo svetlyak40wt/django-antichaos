@@ -1,0 +1,22 @@
+django-antichaos
+================
+
+Introduction
+------------
+
+
+
+Installation
+------------
+
+TODO
+----
+
+* Create example application.
+* Add code to visualize tag cloud.
+* Add jQuery support and Drag&Drop
+* Add collection of user actions in a queue.
+* Add actions history and Undo/Redo.
+* Add backend code to process actions and merge TagItems.
+* Add ability to load bookmarks from a file in Netscape Bookmarks format.
+* Add tag renaming.
