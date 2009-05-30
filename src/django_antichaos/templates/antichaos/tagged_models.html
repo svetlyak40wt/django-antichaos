@@ -1,0 +1,10 @@
+{% load i18n %}
+
+{% if models %}
+    <h1>{% trans 'Tag clouds' %}</h1>
+    <ul>
+        {% for m in models %}
+            <li><a href="">{% blocktrans with m.name as model %}Tag cloud for {{ model }}.{% endblocktrans %}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}

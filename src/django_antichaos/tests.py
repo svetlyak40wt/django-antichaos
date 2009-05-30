@@ -1,12 +1,17 @@
 from django.test import TestCase
 from django.db import models
+
 from tagging.fields import TagField
+from django_antichaos.utils import get_tagged_models
+
 
 class Post(models.Model):
     tags = TagField()
 
+
 class Link(models.Model):
     tags = TagField()
+
 
 class TagCloudTests(TestCase):
     def testCreatePost(self):
@@ -15,8 +20,6 @@ class TagCloudTests(TestCase):
         self.assertEqual(1, Post.objects.count())
 
     def testContentTypes(self):
-        from django_antichaos.utils import get_tagged_models
-
         Post(tags = 'one, two, three').save()
         Link(tags = 'six, seven').save()
 
