@@ -4,10 +4,23 @@ django-antichaos
 Introduction
 ------------
 
+This is a django application for visual editing your messy tag clouds.
 
 
 Installation
 ------------
+
+To run example application, follow these steps:
+
+* checkout sources;
+* run `buildout bootstrap`;
+* run `bin/buildout -v` to get all neccessary packages together. You can specify
+  additional options to buildout either from command line or using config inheritance;
+* create `local_settings.py` if your want to override some default settings.;
+* run `bin/django syncdb`;
+* run `bin/django runserver` or `bin/django runfcgi <params>`;
+* have a fun!
+
 
 TODO
 ----
