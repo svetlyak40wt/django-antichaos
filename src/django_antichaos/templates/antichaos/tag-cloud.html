@@ -5,7 +5,11 @@
     {{ block.super }}
     {{ model_name }}
 
-    {{ objects }}
+    <ul class="b-tag-cloud">
+    {% for tag in objects %}
+        <li class="tag c{{ tag.font_size }}">{{ tag.name }}</li>
+    {% endfor %}
+    </ul
 
     {{ cloud }}
 {% endblock %}
