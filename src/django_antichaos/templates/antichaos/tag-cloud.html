@@ -1,6 +1,11 @@
 {% extends 'admin/base_site.html' %}
+{% load tagging_tags %}
 
 {% block content %}
     {{ block.super }}
-    Empty
+    {{ model_name }}
+
+    {{ objects }}
+
+    {{ cloud }}
 {% endblock %}
