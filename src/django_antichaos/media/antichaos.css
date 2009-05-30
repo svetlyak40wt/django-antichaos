@@ -1,5 +1,11 @@
-li.tag {float: left; list-style: none; line-height: 1em;}
+ul.tag-cloud {line-height: 4em;}
+li.tag {display: inline; list-style: none;}
+
 .c1 {font-size: 1em;}
+.c1 sup {font-size: 0.8em;}
 .c2 {font-size: 2em;}
+.c2 sup {font-size: 0.4em;}
 .c3 {font-size: 3em;}
+.c3 sup {font-size: 0.27em;}
 .c4 {font-size: 4em;}
+.c4 sup {font-size: 0.2em;}

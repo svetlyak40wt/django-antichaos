@@ -11,9 +11,9 @@
     {{ block.super }}
     {{ model_name }}
 
-    <ul class="b-tag-cloud">
+    <ul class="tag-cloud">
     {% for tag in objects %}
-        <li class="tag c{{ tag.font_size }}">{{ tag.name }} <span class="count">{{ tag.count }}</span></li>
+        <li class="tag c{{ tag.font_size }}">{{ tag.name }} <sup>{{ tag.count }}</sup></li>
     {% endfor %}
     </ul>
 {% endblock %}
