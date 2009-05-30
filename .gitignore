@@ -5,3 +5,5 @@ build
 dist
 bin
 develop-eggs
+parts
+.installed.cfg
