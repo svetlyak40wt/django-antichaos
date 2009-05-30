@@ -11,7 +11,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = 'antichaos-example'
+DATABASE_NAME = 'antichaos-example.sqlite'
 DATABASE_USER = 'db_user'
 DATABASE_PASSWORD = 'db_pass'
 DATABASE_HOST = ''
