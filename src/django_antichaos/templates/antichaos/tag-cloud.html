@@ -5,6 +5,14 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% antichaos_media_prefix %}antichaos.css" />
+
+<script src="{% antichaos_media_prefix %}jquery.js"></script>
+<script src="{% antichaos_media_prefix %}ui.core.js"></script>
+<script src="{% antichaos_media_prefix %}ui.draggable.js"></script>
+<script src="{% antichaos_media_prefix %}ui.droppable.js"></script>
+<script src="{% antichaos_media_prefix %}effects.core.js"></script>
+<script src="{% antichaos_media_prefix %}effects.explode.js"></script>
+<script src="{% antichaos_media_prefix %}antichaos.js"></script>
 {% endblock %}
 
 {% block content %}
