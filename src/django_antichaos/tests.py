@@ -15,7 +15,7 @@ class TagCloudTests(TestCase):
         self.assertEqual(1, Post.objects.count())
 
     def testContentTypes(self):
-        from django_antichaos import get_tagged_models
+        from django_antichaos.utils import get_tagged_models
 
         Post(tags = 'one, two, three').save()
         Link(tags = 'six, seven').save()
