@@ -1,6 +1,7 @@
 *.pyc
 .*.swp
 *.egg-info
+*.sqlite
 build
 dist
 bin
