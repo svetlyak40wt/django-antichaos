@@ -73,6 +73,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'tagging',
+    'django_antichaos',
+    'antichaos_example',
 )
 
 EMAIL_SUBJECT_PREFIX = ''
