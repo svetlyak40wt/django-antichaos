@@ -10,8 +10,8 @@ from django.utils.translation import ugettext_lazy as _
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
-DATABASE_ENGINE = 'sqlite'
-DATABASE_NAME = 'db_name'
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = 'antichaos-example'
 DATABASE_USER = 'db_user'
 DATABASE_PASSWORD = 'db_pass'
 DATABASE_HOST = ''
