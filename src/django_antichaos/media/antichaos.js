@@ -8,13 +8,15 @@ $(document).ready(function() {
         activeClass: 'active',
         hoverClass:  'hover',
         drop: function(ev, ui) {
+            var from = ui.draggable;
+            var to = $(this)
             stack[stack.length] = {
                 action: 'merge',
-                from: ui.draggable[0].id,
-                to: $(this)[0].id
+                from: from[0].id,
+                to:     to[0].id,
             };
             history.append(
-                $('<li>' + ui.draggable.html() + '->' + $(this).html() + '</li>')
+                $('<li>' + from.html() + '->' + to.html() + '</li>')
             );
             ui.draggable.effect('explode');
         },
