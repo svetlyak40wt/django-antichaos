@@ -6,5 +6,11 @@ from tagging.fields import TagField
 __all__ = ['Link']
 
 class Link(models.Model):
-    url = models.URLField(_('View URL'), verify_exists = False)
+    url = models.URLField(_('URL'), verify_exists = False)
     tags = tags = TagField()
+
+    def __unicode__(self):
+        return self.url
+
+    class Meta:
+        ordering = ('url',)
