@@ -23,7 +23,7 @@ class TagCloudTests(TestCase):
         Post(tags = 'one, two, three').save()
         Link(tags = 'six, seven').save()
 
-        mods = get_tagged_models()
+        mods = [m for ctype_id, m in get_tagged_models()]
         self.assertEqual(2, len(mods))
         self.assert_(Post in mods)
         self.assert_(Link in mods)
