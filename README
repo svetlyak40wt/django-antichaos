@@ -13,6 +13,8 @@ Dependencies
 This project depends on latest (>=0.3_pre) version of [django-tagging][] or
 [django-tagging-ng][].
 
+To load data into example application, you need install BeautifulSoup.
+
 
 Installation
 ------------
