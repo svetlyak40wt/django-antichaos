@@ -34,7 +34,6 @@ To run example application, follow these steps:
 TODO
 ----
 
-* Add code to visualize tag cloud.
 * Add jQuery support and Drag&Drop
 * Add collection of user actions in a queue.
 * Add actions history and Undo/Redo.
@@ -46,6 +45,7 @@ DONE
 ----
 
 * Create example application.
+* Add code to visualize tag cloud.
 
 [django-tagging]: http://code.google.com/p/django-tagging/
 [django-tagging-ng]: http://github.com/svetlyak40wt/django-tagging-ng/
