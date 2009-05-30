@@ -1,4 +1,5 @@
 {% extends 'admin/base_site.html' %}
+{% load i18n %}
 {% load antichaos %}
 {% load tagging_tags %}
 
@@ -16,12 +17,25 @@
 {% endblock %}
 
 {% block content %}
-    {{ block.super }}
-    {{ model_name }}
+    <div id="content-main">
+        {{ block.super }}
+        {{ model_name }}
 
-    <ul class="tag-cloud">
-    {% for tag in objects %}
-        <li class="tag c{{ tag.font_size }}">{{ tag.name }}<sup>{{ tag.count }}</sup></li>
-    {% endfor %}
-    </ul>
+        <ul class="tag-cloud">
+        {% for tag in objects %}
+            <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}">{{ tag.name }}<sup>{{ tag.count }}</sup></li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
+
+{% block sidebar %}
+    <div id="content-related">
+        <div class="module" id="recent-actions-module">
+            <h2>{% trans 'Recent Actions' %}</h2>
+            <ul class="history">
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

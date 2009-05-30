@@ -12,4 +12,5 @@ li.tag {display: inline; list-style: none;}
 
 .active {color: red;}
 .hover {color: blue;}
-
+#content-main {width: 800px; margin-right: 2em;}
+#content-related {position: static; float: left;}
