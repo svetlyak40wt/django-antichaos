@@ -1,5 +1,11 @@
 {% extends 'admin/base_site.html' %}
+{% load antichaos %}
 {% load tagging_tags %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" type="text/css" href="{% antichaos_media_prefix %}antichaos.css" />
+{% endblock %}
 
 {% block content %}
     {{ block.super }}

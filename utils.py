@@ -8,7 +8,7 @@ def upload(filename = '../bookmarks.html'):
 
     Link.objects.all().delete()
 
-    for link in links:
+    for link in links[:100]:
         url = link['href']
         tags = link['tags']
         try:
