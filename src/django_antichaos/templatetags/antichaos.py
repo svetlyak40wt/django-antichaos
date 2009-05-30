@@ -6,6 +6,6 @@ register = template.Library()
 
 @register.inclusion_tag('antichaos/tagged_models.html')
 def tagged_models():
-    models = [dict(name = m.__name__, model = m)
+    models = [dict(name = m.__name__, model = m, ctype = 1)
                    for m in get_tagged_models()]
     return dict(models = models)

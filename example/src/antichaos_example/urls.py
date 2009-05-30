@@ -12,5 +12,6 @@ front_dict = {
 urlpatterns = patterns('',
      (r'^$', 'django.views.generic.simple.direct_to_template', front_dict),
      (r'^admin/(.*)', admin.site.root, {}, 'admin-root'),
+     (r'^antichaos/', include('django_antichaos.urls')),
 )
 

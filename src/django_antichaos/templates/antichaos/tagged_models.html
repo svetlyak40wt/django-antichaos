@@ -4,7 +4,7 @@
     <h1>{% trans 'Tag clouds' %}</h1>
     <ul>
         {% for m in models %}
-            <li><a href="">{% blocktrans with m.name as model %}Tag cloud for {{ model }}.{% endblocktrans %}</a></li>
+            <li><a href="{% url tag-cloud m.ctype %}">{% blocktrans with m.name as model %}Tag cloud for {{ model }}.{% endblocktrans %}</a></li>
         {% endfor %}
     </ul>
 {% endif %}
