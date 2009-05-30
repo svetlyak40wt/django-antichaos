@@ -1,0 +1,11 @@
+{% extends "admin/app_index.html" %}
+{% load i18n %}
+{% load antichaos %}
+
+{% block content %}
+{{ block.super }}
+<div>
+    <h1>{% trans 'Tag clouds' %}</h1>
+</div>
+{% endblock %}
+
