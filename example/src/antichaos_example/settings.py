@@ -7,7 +7,7 @@ PROJECT_ROOT = (PROJECT_ROOT=='.') and os.getcwd() or PROJECT_ROOT
 
 from django.utils.translation import ugettext_lazy as _
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 DATABASE_ENGINE = 'sqlite3'
