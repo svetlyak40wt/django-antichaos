@@ -6,6 +6,9 @@
         {% for object in objects %}
             <tr><td>{{ object }}</td></tr>
         {% endfor %}
+        {% if more %}
+            <tr><td>{% blocktrans %}{{ more }} more.{% endblocktrans %}</td></tr>
+        {% endif %}
         </tbody>
     </table>
 </div>

@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django_antichaos.utils import process_commands
 from tagging.models import Tag, TaggedItem
 
+
 def cloud(request, ctype_id):
     ctype = ContentType._default_manager.get(id = ctype_id)
 
@@ -23,6 +24,7 @@ def cloud(request, ctype_id):
         objects = objects,
     ), context_instance = RequestContext(request))
 
+
 def preview(request, ctype_id, tag_id):
     ctype = ContentType._default_manager.get(id = ctype_id)
 
@@ -31,9 +33,14 @@ def preview(request, ctype_id, tag_id):
     objects = TaggedItem.objects.get_by_model(
         ctype.model_class(), tag)
 
+    limit = request.GET.get('limit', 5)
+    total_count = objects.count()
+    objects = objects[:limit]
+
     return render_to_response('antichaos/tag-preview.html', dict(
         tag = tag,
         ctype = ctype,
-        objects = objects,
+        objects = objects[:limit],
+        more = total_count - len(objects),
     ), context_instance = RequestContext(request))
 
