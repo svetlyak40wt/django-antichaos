@@ -13,6 +13,7 @@ input[disabled] {display: none;}
 .c4 {font-size: 4em;}
 .c4 sup {font-size: 0.2em;}
 
+.tag {cursor: move;}
 .tag.active {color: red;}
 .tag.hover {color: blue;}
 .tag form {display: inline;}
