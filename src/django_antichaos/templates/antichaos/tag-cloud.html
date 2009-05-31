@@ -26,18 +26,18 @@
             <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}">{{ tag.name }}<sup>{{ tag.count }}</sup></li>
         {% endfor %}
         </ul>
-        <form class="tag-cloud" action="" method="POST" >
-            <input type="submit" value="{% trans 'Apply' %}" disabled="true"/>
-        </form>
     </div>
 {% endblock %}
 
 {% block sidebar %}
     <div id="content-related">
         <div class="module" id="recent-actions-module">
-            <h2>{% trans 'Recent Actions' %}</h2>
+            <h2>{% trans 'History' %}</h2>
             <ul class="history">
             </ul>
+            <form class="tag-cloud" action="" method="POST" >
+                <input type="submit" value="{% trans 'Apply' %}" disabled="true"/>
+            </form>
         </div>
     </div>
 {% endblock %}
