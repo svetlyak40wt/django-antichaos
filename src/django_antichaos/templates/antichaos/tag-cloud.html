@@ -26,8 +26,8 @@
             <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}">{{ tag.name }}<sup>{{ tag.count }}</sup></li>
         {% endfor %}
         </ul>
-        <form class="tag-cloud disabled" action="" method="POST" >
-            <input type="submit" value="{% trans 'Apply' %}" disabled="1"/>
+        <form class="tag-cloud" action="" method="POST" >
+            <input type="submit" value="{% trans 'Apply' %}" disabled="true"/>
         </form>
     </div>
 {% endblock %}

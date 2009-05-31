@@ -35,7 +35,7 @@ $(document).ready(function() {
             });
 
             ui.draggable.effect('explode');
-            $('form.tag-cloud').removeClass('disabled').find('input[disabled]').attr('disabled', false);
+            $('form.tag-cloud input[disabled]').attr('disabled', false);
         },
     });
 });
