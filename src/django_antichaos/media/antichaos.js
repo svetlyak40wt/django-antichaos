@@ -1,8 +1,29 @@
 var stack = [];
 
+function get_tag_id(tag_id)
+{
+    // cut real tag id from HTML's id
+    return tag_id.substring(4, tag_id.length);
+}
+
 $(document).ready(function() {
     var history = $('.history');
     var form = $('form.tag-cloud');
+
+    $('.tag').each(function (i, tag) {
+        $(tag).hover(
+            function() {
+                this.hover_timer = setTimeout(function() {
+                    var tag_id = get_tag_id($(tag).attr('id'));
+                    var url = 'preview/' + tag_id + '/';
+                    $(tag).simpletip();
+                }, 1000);
+            },
+            function() {
+                clearTimeout(this.hover_timer);
+            }
+        );
+    });
 
     $('.tag').draggable().droppable({
         accept: '.tag',
@@ -10,7 +31,7 @@ $(document).ready(function() {
         hoverClass:  'hover',
         drop: function(ev, ui) {
             var from = ui.draggable;
-            var to = $(this)
+            var to = $(this);
 
             var from_tag_id = from[0].id;
             from_tag_id = from_tag_id.substring(4, from_tag_id.length);
