@@ -1,0 +1,13 @@
+django-antichaos changes
+========================
+
+0.1.1
+-----
+
+* Added templates missing in distribution.
+
+0.1.0
+-----
+
+* First public release.
+
