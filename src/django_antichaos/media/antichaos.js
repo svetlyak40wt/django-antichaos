@@ -71,6 +71,7 @@ $(document).ready(function() {
 
             $(tag).find('span').hide();
             $(tag).prepend(form);
+            form.find('input').focus();
         });
     });
 
