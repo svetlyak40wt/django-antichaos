@@ -9,27 +9,68 @@ function get_tag_id(tag_id)
 
 $(document).ready(function() {
     var history = $('.history');
-    var form = $('form.tag-cloud');
+    var changes_form = $('form.tag-cloud');
     var tooltips_cache = {};
+    var tooltip_timer;
 
     $('.tag').each(function (i, tag) {
         $(tag).simpletip({
             content: '',
-            persistent: true,
             position: [$(tag).width(), 0],
             onBeforeShow: function() {
-                var tag_id = get_tag_id($(tag).attr('id'));
-                if (tooltips_cache[tag_id]) {
-                    this.update(tooltips_cache[tag_id]);
-                } else {
-                    var url = 'preview/' + tag_id + '/';
-                    var tooltip = this;
-                    $.get(url, function(data) {
-                        tooltips_cache[tag_id] = data;
-                        tooltip.update(data);
-                    });
-                }
+                var tooltip = this;
+
+                tooltip_timer = setTimeout(function() {
+                    var tag_id = get_tag_id($(tag).attr('id'));
+                    if (tooltips_cache[tag_id]) {
+                        this.update(tooltips_cache[tag_id]);
+                    } else {
+                        var url = 'preview/' + tag_id + '/';
+                        $.get(url, function(data) {
+                            tooltips_cache[tag_id] = data;
+                            tooltip.update(data);
+                        });
+                    }
+                }, 3000);
+            },
+            onHide: function() {
+                clearTimeout(tooltip_timer);
             }
+        });
+
+        $(tag).dblclick(function() {
+            clearTimeout(tooltip_timer);
+
+            var form = $('<form><input name="text" type="text" /></form>');
+            form.find('input').width($(tag).find('span').width());
+
+            form.submit(function(evt) {
+                var new_value = form[0].text.value;
+                $(tag).find('span').show();
+                form.remove();
+
+                // start history update
+                var tag_id = get_tag_id(tag.id);
+                changes_form.append(
+                    '<input name="changes" type="hidden" value="' +
+                    'rename' + tag_id + ' ' + new_value + '" />');
+
+                stack[stack.length] = {
+                    action: 'rename',
+                    tag_id: tag_id,
+                    new_value: new_value,
+                };
+                history.append(
+                    $('<li>' + $(tag).html() + ' -> ' + new_value + '</li>')
+                );
+                // end history update
+
+                $(tag).find('span').html(new_value);
+                evt.preventDefault();
+            });
+
+            $(tag).find('span').hide();
+            $(tag).prepend(form);
         });
     });
 
@@ -47,7 +88,8 @@ $(document).ready(function() {
             var to_tag_id = to[0].id;
             to_tag_id = to_tag_id.substring(4, to_tag_id.length);
 
-            form.append(
+            // end history update
+            changes_form.append(
                 '<input name="changes" type="hidden" value="' +
                 'merge ' + to_tag_id + ' ' + from_tag_id + '" />');
 
@@ -59,6 +101,7 @@ $(document).ready(function() {
             history.append(
                 $('<li>' + to.html() + ' = ' + from.html() + '</li>')
             );
+            // end history update
 
             var from_count = eval(from.find('sup').html());
             var from_size = from.css('font-size');
