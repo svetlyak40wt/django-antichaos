@@ -5,7 +5,7 @@ from django.template import RequestContext
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 
-from django_antichaos.utils import ctypeid_to_model_name
+from django_antichaos.utils import process_commands
 from tagging.models import Tag
 
 def cloud(request, ctype_id):
@@ -13,6 +13,7 @@ def cloud(request, ctype_id):
 
     if request.method == 'POST':
         changes = request.POST.getlist('changes')
+        process_commands(ctype, changes)
 
     objects = Tag.objects.cloud_for_model(ctype.model_class())
 

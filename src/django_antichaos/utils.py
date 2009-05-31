@@ -6,7 +6,5 @@ def get_tagged_models():
     ctypes = ContentType._default_manager.filter(id__in = cids)
     return [(ctype.id, ctype.model_class()) for ctype in ctypes]
 
-def ctypeid_to_model_name(ctype_id):
-    ctype = ContentType._default_manager.get(id = ctype_id)
-    return '%s.%s' % (ctype.app_label, ctype.model)
-
+def process_commands(ctype, commands):
+    pass
