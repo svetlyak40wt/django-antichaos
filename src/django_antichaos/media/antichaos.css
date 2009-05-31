@@ -1,6 +1,9 @@
 ul.tag-cloud {line-height: 4em;}
 li.tag {display: inline; list-style: none;}
 
+form.tag-cloud {text-align: right;}
+form.disabled input {color: gray;}
+
 .c1 {font-size: 1em;}
 .c1 sup {font-size: 0.8em;}
 .c2 {font-size: 2em;}
