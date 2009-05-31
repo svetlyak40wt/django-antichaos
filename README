@@ -43,8 +43,11 @@ To run example application, follow these steps:
   additional options to buildout either from command line or using config inheritance;
 * create `local_settings.py` if your want to override some default settings.;
 * run `bin/django syncdb`;
-* export your bookmarks from delicios;
-* upload file with bookmarks using command `bin/django upload_bookmarks delicios-bookmarks.html`;
+* add data from Netscape Bookmarks file:
+    * export your bookmarks from delicios;
+    * upload file with bookmarks using command `bin/django upload_bookmarks delicios-bookmarks.html`;
+* or load fixture:
+    * `bin/django loaddata djangodash_fixture`;
 * run `bin/django runserver` or `bin/django runfcgi <params>`;
 * point your browser to http://127.0.0.1:8000;
 * have a fun!
