@@ -16,7 +16,7 @@ $(document).ready(function() {
                 to:     to[0].id,
             };
             history.append(
-                $('<li>' + from.html() + '->' + to.html() + '</li>')
+                $('<li>' + to.html() + ' = ' + from.html() + '</li>')
             );
             var from_count = eval(from.find('sup').html());
             var from_size = from.css('font-size');
