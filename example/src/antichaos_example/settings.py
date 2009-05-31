@@ -33,7 +33,7 @@ SITE_ID = 1
 USE_I18N = True
 
 MEDIA_ROOT = os.path.normpath(os.path.join(PROJECT_ROOT, 'media'))
-MEDIA_URL = 'http://127.0.0.1:18000/media/'
+MEDIA_URL = 'http://127.0.0.1:8000/media/'
 
 ADMIN_MEDIA_PREFIX = '/media/admin/'
 

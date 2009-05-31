@@ -9,3 +9,4 @@ develop-eggs
 parts
 .installed.cfg
 example/src/antichaos_example/media/antichaos
+local_settings.py

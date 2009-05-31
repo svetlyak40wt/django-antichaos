@@ -27,6 +27,8 @@ To run example application, follow these steps:
   additional options to buildout either from command line or using config inheritance;
 * create `local_settings.py` if your want to override some default settings.;
 * run `bin/django syncdb`;
+* export your bookmarks from delicios;
+* upload file with bookmarks using command `bin/django upload_bookmarks delicios-bookmarks.html`;
 * run `bin/django runserver` or `bin/django runfcgi <params>`;
 * have a fun!
 
@@ -34,7 +36,6 @@ To run example application, follow these steps:
 TODO
 ----
 
-* Add ability to load bookmarks from a file in Netscape Bookmarks format.
 * Add actions history and Undo/Redo.
 
 DONE
@@ -47,6 +48,7 @@ DONE
 * Add backend code to process actions and merge TagItems.
 * Add tag preview.
 * Add tag renaming.
+* Add ability to load bookmarks from a file in Netscape Bookmarks format.
 
 [django-tagging]: http://code.google.com/p/django-tagging/
 [django-tagging-ng]: http://github.com/svetlyak40wt/django-tagging-ng/
