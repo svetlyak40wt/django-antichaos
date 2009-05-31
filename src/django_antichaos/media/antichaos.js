@@ -41,7 +41,8 @@ $(document).ready(function() {
         $(tag).dblclick(function() {
             clearTimeout(tooltip_timer);
 
-            var form = $('<form><input name="text" type="text" /></form>');
+            var old_value = $(tag).find('span').html();
+            var form = $('<form><input name="text" type="text" value="' + old_value + '" /></form>');
             form.find('input').width($(tag).find('span').width());
 
             form.submit(function(evt) {
@@ -49,23 +50,25 @@ $(document).ready(function() {
                 $(tag).find('span').show();
                 form.remove();
 
-                // start history update
-                var tag_id = get_tag_id(tag.id);
-                changes_form.append(
-                    '<input name="changes" type="hidden" value="' +
-                    'rename' + tag_id + ' ' + new_value + '" />');
+                if (new_value != old_value) {
+                    // start history update
+                    var tag_id = get_tag_id(tag.id);
+                    changes_form.append(
+                        '<input name="changes" type="hidden" value="' +
+                        'rename' + tag_id + ' ' + new_value + '" />');
 
-                stack[stack.length] = {
-                    action: 'rename',
-                    tag_id: tag_id,
-                    new_value: new_value,
-                };
-                history.append(
-                    $('<li>' + $(tag).html() + ' -> ' + new_value + '</li>')
-                );
-                // end history update
+                    stack[stack.length] = {
+                        action: 'rename',
+                        tag_id: tag_id,
+                        new_value: new_value,
+                    };
+                    history.append(
+                        $('<li>' + old_value + ' -> ' + new_value + '</li>')
+                    );
+                    // end history update
 
-                $(tag).find('span').html(new_value);
+                    $(tag).find('span').html(new_value);
+                }
                 evt.preventDefault();
             });
 

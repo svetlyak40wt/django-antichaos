@@ -16,7 +16,7 @@ input[disabled] {display: none;}
 .tag.active {color: red;}
 .tag.hover {color: blue;}
 .tag form {display: inline;}
-.tag input {font-size: 0.5em;}
+.tag input {font-size: 1em;}
 
 #content-main {width: 800px; margin-right: 2em;}
 #content-related {position: static; float: left;}
