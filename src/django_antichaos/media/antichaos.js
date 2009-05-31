@@ -11,18 +11,13 @@ $(document).ready(function() {
     var form = $('form.tag-cloud');
 
     $('.tag').each(function (i, tag) {
-        $(tag).hover(
-            function() {
-                this.hover_timer = setTimeout(function() {
-                    var tag_id = get_tag_id($(tag).attr('id'));
-                    var url = 'preview/' + tag_id + '/';
-                    $(tag).simpletip();
-                }, 1000);
-            },
-            function() {
-                clearTimeout(this.hover_timer);
+        $(tag).simpletip({
+            onBeforeShow: function() {
+                var tag_id = get_tag_id($(tag).attr('id'));
+                var url = 'preview/' + tag_id + '/';
+                this.load(url);
             }
-        );
+        });
     });
 
     $('.tag').draggable().droppable({
