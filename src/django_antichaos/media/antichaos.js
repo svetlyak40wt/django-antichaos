@@ -2,6 +2,7 @@ var stack = [];
 
 $(document).ready(function() {
     var history = $('.history');
+    var form = $('form.tag-cloud');
 
     $('.tag').draggable().droppable({
         accept: '.tag',
@@ -10,14 +11,26 @@ $(document).ready(function() {
         drop: function(ev, ui) {
             var from = ui.draggable;
             var to = $(this)
+
+            var from_tag_id = from[0].id;
+            from_tag_id = from_tag_id.substring(4, from_tag_id.length);
+
+            var to_tag_id = to[0].id;
+            to_tag_id = to_tag_id.substring(4, to_tag_id.length);
+
+            form.append(
+                '<input name="changes" type="hidden" value="' +
+                'merge ' + to_tag_id + ' ' + from_tag_id + '" />');
+
             stack[stack.length] = {
                 action: 'merge',
-                from: from[0].id,
-                to:     to[0].id,
+                from: from_tag_id,
+                to:     to_tag_id,
             };
             history.append(
                 $('<li>' + to.html() + ' = ' + from.html() + '</li>')
             );
+
             var from_count = eval(from.find('sup').html());
             var from_size = from.css('font-size');
             from_size = eval(from_size.substring(0, from_size.length - 2));
