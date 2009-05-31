@@ -26,9 +26,12 @@ $(document).ready(function() {
             var to_size = to.css('font-size');
             to_size = eval(to_size.substring(0, to_size.length - 2));
 
+            // TODO add real new size calculation, based on relative counts
+            var new_size =  to_size + from_size / (to_size/to_count + from_size/from_count);
+
             to.find('sup').html(to_count + from_count);
             to.animate({
-                fontSize: to_size + from_size,
+                fontSize: '+=0.25em',
             });
 
             ui.draggable.effect('explode');
