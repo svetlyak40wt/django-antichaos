@@ -1,4 +1,5 @@
 var stack = [];
+var tip;
 
 function get_tag_id(tag_id)
 {
@@ -9,6 +10,7 @@ function get_tag_id(tag_id)
 $(document).ready(function() {
     var history = $('.history');
     var form = $('form.tag-cloud');
+    var tooltips_cache = {};
 
     $('.tag').each(function (i, tag) {
         $(tag).simpletip({
@@ -17,8 +19,16 @@ $(document).ready(function() {
             position: [$(tag).width(), 0],
             onBeforeShow: function() {
                 var tag_id = get_tag_id($(tag).attr('id'));
-                var url = 'preview/' + tag_id + '/';
-                this.load(url);
+                if (tooltips_cache[tag_id]) {
+                    this.update(tooltips_cache[tag_id]);
+                } else {
+                    var url = 'preview/' + tag_id + '/';
+                    var tooltip = this;
+                    $.get(url, function(data) {
+                        tooltips_cache[tag_id] = data;
+                        tooltip.update(data);
+                    });
+                }
             }
         });
     });
