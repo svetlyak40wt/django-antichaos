@@ -23,7 +23,7 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Programming Language :: Python',
-        'Programming Language :: Javascript',
+        'Programming Language :: JavaScript',
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     package_dir = {'': 'src'},
