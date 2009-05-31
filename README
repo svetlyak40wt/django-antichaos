@@ -34,7 +34,6 @@ To run example application, follow these steps:
 TODO
 ----
 
-* Add tag preview.
 * Add tag renaming.
 * Add actions history and Undo/Redo.
 * Add ability to load bookmarks from a file in Netscape Bookmarks format.
@@ -47,6 +46,7 @@ DONE
 * Add jQuery support and Drag&Drop
 * Add collection of user actions in a queue.
 * Add backend code to process actions and merge TagItems.
+* Add tag preview.
 
 [django-tagging]: http://code.google.com/p/django-tagging/
 [django-tagging-ng]: http://github.com/svetlyak40wt/django-tagging-ng/
