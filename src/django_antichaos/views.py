@@ -1,6 +1,6 @@
 from pdb import set_trace
 
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
@@ -10,6 +10,10 @@ from tagging.models import Tag, TaggedItem
 
 
 def cloud(request, ctype_id):
+    if request.user.is_staff == False:
+        # TODO find way to resolve real admin page.
+        return redirect('/admin/')
+
     ctype = ContentType._default_manager.get(id = ctype_id)
 
     if request.method == 'POST':
