@@ -41,7 +41,8 @@ class CommandsTests(TestCase):
         self.post_ctype = model_to_ctype(Post)
         self.link_ctype = model_to_ctype(Link)
 
-        Post(title = 'First post', tags = 'one, two, three').save()
+        self.post1 = Post(title = 'First post', tags = 'one, two, three')
+        self.post1.save()
         Post(title = 'Second post', tags = 'five, six').save()
 
         Link(url = 'http://blah.com', tags = 'five, seven').save()
@@ -54,17 +55,19 @@ class CommandsTests(TestCase):
         self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'five').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'three').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
+        self.assertEqual('one three two', Post.objects.get(id=self.post1.id).tags)
 
         t = self.tagids
         process_commands(self.post_ctype, [
-            'merge %s %s' % (t['three'], t['five']),
-            'merge %s %s' % (t['two'], t['three']),
+            'merge|%s|%s' % (t['three'], t['five']),
+            'merge|%s|%s' % (t['two'], t['three']),
         ])
 
         self.assertEqual(2, TaggedItem.objects.get_by_model(Post, 'two').count())
         self.assertEqual(0, TaggedItem.objects.get_by_model(Post, 'five').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'three').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
+        self.assertEqual('one two', Post.objects.get(id=self.post1.id).tags)
 
     def testRename(self):
         self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'five').count())
@@ -73,7 +76,7 @@ class CommandsTests(TestCase):
 
         t = self.tagids
         process_commands(self.post_ctype, [
-            'rename %s %s' % (t['five'], 'new-tag'),
+            'rename|%s|%s' % (t['five'], 'new-tag'),
         ])
 
         self.assertEqual(0, TaggedItem.objects.get_by_model(Post, 'five').count())

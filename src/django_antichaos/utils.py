@@ -2,6 +2,8 @@ import logging
 
 from django.contrib.contenttypes.models import ContentType
 from tagging.models import Tag, TaggedItem
+from tagging.fields import TagField
+from tagging.utils import edit_string_for_tags
 
 def get_tagged_models():
     cids = TaggedItem._default_manager.values('content_type').distinct()
@@ -11,6 +13,21 @@ def get_tagged_models():
 
 def model_to_ctype(model):
     return ContentType._default_manager.get_for_model(model)
+
+
+def update_objects_tags(object):
+    if object is None:
+        return
+
+    object_tags = [ tag.name \
+                    for tag in Tag.objects.get_for_object(object) ]
+    tags_as_string = edit_string_for_tags(object_tags)
+
+    for field in object._meta.fields:
+        if isinstance(field, TagField):
+            setattr(object, field.attname, tags_as_string)
+            object.save()
+            break
 
 
 def process_merge(ctype, tag_left, tag_right):
@@ -32,6 +49,7 @@ def process_merge(ctype, tag_left, tag_right):
             item.save()
             logger.debug('item "%s" merged' % item)
 
+        update_objects_tags(item.object)
 
 def process_rename(ctype, old_tag_id, new_name):
     logger = logging.getLogger('antichaos.utils')
