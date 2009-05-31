@@ -12,6 +12,7 @@ $(document).ready(function() {
 
     $('.tag').each(function (i, tag) {
         $(tag).simpletip({
+            content: '',
             persistent: true,
             position: [$(tag).width(), 0],
             onBeforeShow: function() {

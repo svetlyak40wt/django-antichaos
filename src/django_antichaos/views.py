@@ -32,7 +32,7 @@ def preview(request, ctype_id, tag_id):
         ctype.model_class(), tag)
 
     return render_to_response('antichaos/tag-preview.html', dict(
-        title = _('Preview for tag "%s"') % _(tag.name),
+        tag = tag,
         ctype = ctype,
         objects = objects,
     ), context_instance = RequestContext(request))

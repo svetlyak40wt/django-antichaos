@@ -1,4 +1,4 @@
-ul.tag-cloud {line-height: 4em;}
+ul.tag-cloud {line-height: 4em; padding-left: 0;}
 li.tag {display: inline; list-style: none;}
 
 form.tag-cloud {text-align: right;}
@@ -13,18 +13,16 @@ input[disabled] {display: none;}
 .c4 {font-size: 4em;}
 .c4 sup {font-size: 0.2em;}
 
-.active {color: red;}
-.hover {color: blue;}
+tag.active {color: red;}
+tag.hover {color: blue;}
 #content-main {width: 800px; margin-right: 2em;}
 #content-related {position: static; float: left;}
 
 .tooltip {
     position: absolute; top: 0; left: 0; z-index: 3; display: none;
-    background: yellow;
-    border: 1px solid green;
-    width: 500px;
+    width: 400px;
     font-size: 16px;
-    padding: 5px;
-    margin: 5px;
+    line-height: 1em;
+    padding: 0px;
 }
-
+.tooltip table {width: 100%;}

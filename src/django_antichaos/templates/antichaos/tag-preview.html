@@ -1,5 +1,11 @@
-<ul>
-    {% for object in objects %}
-        <li>{{ object }}</li>
-    {% endfor %}
-</ul>
+{% load i18n %}
+<div class="module">
+    <table>
+        <caption>{% blocktrans with tag.name as tag_name %}Objects with tag "{{ tag_name }}"{% endblocktrans %}</caption>
+        <tbody>
+        {% for object in objects %}
+            <tr><td>{{ object }}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
