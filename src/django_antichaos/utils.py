@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib.contenttypes.models import ContentType
-from tagging.models import TaggedItem
+from tagging.models import Tag, TaggedItem
 
 def get_tagged_models():
     cids = TaggedItem._default_manager.values('content_type').distinct()
@@ -12,9 +12,24 @@ def get_tagged_models():
 def model_to_ctype(model):
     return ContentType._default_manager.get_for_model(model)
 
+
 def process_merge(ctype, tag_left, tag_right):
     logger = logging.getLogger('antichaos.utils')
-    logger.debug('merging tag_id %s to tag_id %s' % (tag_right, tag_left))
+
+    tag_left = Tag.objects.get(id=tag_left)
+    tag_right = Tag.objects.get(id=tag_right)
+
+    logger.debug('merging tag "%s" to tag "%s"' % (tag_right.name, tag_left.name))
+
+    for item in tag_right.items.all():
+        if tag_left.items.filter(object_id = item.object_id).count() != 0:
+            logger.debug('item "%s" already binded to tag "%s"' % (item, tag_left))
+            item.delete(update = False)
+        else:
+            item.tag = tag_left
+            item.save()
+            logger.debug('item "%s" merged' % item)
+
 
 def process_commands(ctype, commands):
     logger = logging.getLogger('antichaos.utils')

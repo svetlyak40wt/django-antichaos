@@ -10,11 +10,16 @@ class Post(models.Model):
     title = models.CharField(max_length = 20)
     tags = TagField()
 
+    def __unicode__(self):
+        return self.title
+
 
 class Link(models.Model):
     url = models.CharField(max_length = 20)
     tags = TagField()
 
+    def __unicode__(self):
+        return self.url
 
 class TagCloudTests(TestCase):
     def testCreatePost(self):
