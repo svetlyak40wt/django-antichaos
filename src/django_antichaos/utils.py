@@ -21,8 +21,10 @@ def process_merge(ctype, tag_left, tag_right):
 
     logger.debug('merging tag "%s" to tag "%s"' % (tag_right.name, tag_left.name))
 
-    for item in tag_right.items.all():
-        if tag_left.items.filter(object_id = item.object_id).count() != 0:
+    for item in tag_right.items.filter(content_type = ctype):
+        if tag_left.items.filter(
+                content_type = ctype,
+                object_id = item.object_id).count() != 0:
             logger.debug('item "%s" already binded to tag "%s"' % (item, tag_left))
             item.delete(update = False)
         else:
