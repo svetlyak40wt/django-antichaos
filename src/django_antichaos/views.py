@@ -4,15 +4,17 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
 
 from django_antichaos.utils import process_commands
 from tagging.models import Tag, TaggedItem
 
 
 def cloud(request, ctype_id):
+    admin_index = reverse('admin_index')
+
     if request.user.is_staff == False:
-        # TODO find way to resolve real admin page.
-        return redirect('/admin/')
+        return redirect(admin_index)
 
     ctype = ContentType._default_manager.get(id = ctype_id)
 
@@ -26,6 +28,7 @@ def cloud(request, ctype_id):
         title = _('Tag cloud for %s') % _(ctype.model),
         ctype = ctype,
         objects = objects,
+        root_path = admin_index,
     ), context_instance = RequestContext(request))
 
 

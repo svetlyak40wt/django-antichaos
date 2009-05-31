@@ -12,7 +12,7 @@ urlpatterns = patterns('',
      (r'^$', 'django.views.generic.simple.redirect_to', {
             'url': '/antichaos/cloud/%d/' % model_to_ctype(Link).id
             }),
-     (r'^admin/(.*)', admin.site.root, {}, 'admin-root'),
+     (r'^admin/', include(admin.site.urls)),
      (r'^antichaos/', include('django_antichaos.urls')),
      (r'^media/(?P<path>.*)$', 'django.views.static.serve',
                              {'document_root': settings.MEDIA_ROOT}),

@@ -20,8 +20,8 @@
 {% if not is_popup %}
 {% block breadcrumbs %}
 <div class="breadcrumbs">
-    <a href="/admin/"> {% trans "Home" %}</a> &rsaquo; 
-    <a href="/admin/tagging/"> {% trans "Tagging" %}</a> &rsaquo; 
+    <a href="{{ root_path }}"> {% trans "Home" %}</a> &rsaquo; 
+    <a href="{{ root_path }}tagging/"> {% trans "Tagging" %}</a> &rsaquo; 
     {{ title }}
 </div>{% endblock %}
 
