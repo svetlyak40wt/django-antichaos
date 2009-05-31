@@ -105,7 +105,7 @@ $(document).ready(function() {
                 to:     to_tag_id,
             };
             history.append(
-                $('<li>' + to.html() + ' = ' + from.html() + '</li>')
+                $('<li>' + to.find('span').html() + ' = ' + from.find('span').html() + '</li>')
             );
             $('form.tag-cloud input[disabled]').attr('disabled', false);
             // end history update
