@@ -6,6 +6,7 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('django_antichaos.views',
     (r'^cloud/(?P<ctype_id>\d+)/$', 'cloud', {}, 'tag-cloud'),
+    (r'^cloud/(?P<ctype_id>\d+)/preview/(?P<tag_id>\d+)/$', 'preview', {}, 'tag-preview'),
 )
 
 # create link in media directory

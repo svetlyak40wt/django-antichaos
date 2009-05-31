@@ -17,3 +17,14 @@ input[disabled] {display: none;}
 .hover {color: blue;}
 #content-main {width: 800px; margin-right: 2em;}
 #content-related {position: static; float: left;}
+
+.tooltip {
+    position: absolute; top: 0; left: 0; z-index: 3; display: none;
+    background: yellow;
+    border: 1px solid green;
+    width: 500px;
+    font-size: 16px;
+    padding: 5px;
+    margin: 5px;
+}
+

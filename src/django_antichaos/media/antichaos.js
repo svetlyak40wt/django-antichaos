@@ -12,6 +12,8 @@ $(document).ready(function() {
 
     $('.tag').each(function (i, tag) {
         $(tag).simpletip({
+            persistent: true,
+            position: [$(tag).width(), 0],
             onBeforeShow: function() {
                 var tag_id = get_tag_id($(tag).attr('id'));
                 var url = 'preview/' + tag_id + '/';
