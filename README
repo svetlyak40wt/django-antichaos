@@ -5,6 +5,22 @@ Introduction
 ------------
 
 This is a django application for visual editing your messy tag clouds.
+It adds a new section to you 'tagging' admin page. Usually, this page
+has address http://127.0.0.1:8000/admin/tagging/ or something like that.
+
+Take look at the bottom part of the page. If you have any objects with tags,
+then you should see list of tag clouds, available for viewing and editing.
+Just click on one of these links.
+
+Tag cloud show as usual, but there are small numbers above each tag. They are
+object counters.
+
+There are few major features of django-antichaos:
+
+* You can merge tags, using Drag&Drop.
+* You can rename tag, double clicking on it.
+* You can see helpful tooltip, pointing on some tag and waiting 3 seconds.
+* Remember, nothing changed until "Apply" button pressed! :)
 
 
 Dependencies
@@ -30,25 +46,38 @@ To run example application, follow these steps:
 * export your bookmarks from delicios;
 * upload file with bookmarks using command `bin/django upload_bookmarks delicios-bookmarks.html`;
 * run `bin/django runserver` or `bin/django runfcgi <params>`;
+* point your browser to http://127.0.0.1:8000;
 * have a fun!
 
+Use this app in your own project
+--------------------------------
+
+* add django_antichaos to INSTALLED_APPS.
+* add line `(r'^antichaos/', include('django_antichaos.urls'))` to your urlpatterns.
+* have a fun again!
+
+Also, you can modify look of the tag cloud and tooltips. Just override following templates:
+
+* antichaos/tag_cloud.html -- tag cloud rendering.
+* antichaos/tag_cloud_list.html -- list of available tag clouds.
+* antichaos/tag_preview.html -- list of tagged objects (for tooltip).
 
 TODO
 ----
 
-* Add actions history and Undo/Redo.
+* Add Undo/Redo.
 
 DONE
 ----
 
-* Create example application.
-* Add code to visualize tag cloud.
-* Add jQuery support and Drag&Drop
-* Add collection of user actions in a queue.
-* Add backend code to process actions and merge TagItems.
-* Add tag preview.
-* Add tag renaming.
-* Add ability to load bookmarks from a file in Netscape Bookmarks format.
+* Created example application.
+* Added code to visualize tag cloud.
+* Added jQuery support and Drag&Drop
+* Added collection of user actions in a queue.
+* Added backend code to process actions and merge TagItems.
+* Added tag preview.
+* Added tag renaming.
+* Added ability to load bookmarks from a file in Netscape Bookmarks format.
 
 [django-tagging]: http://code.google.com/p/django-tagging/
 [django-tagging-ng]: http://github.com/svetlyak40wt/django-tagging-ng/

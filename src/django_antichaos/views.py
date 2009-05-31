@@ -18,7 +18,7 @@ def cloud(request, ctype_id):
 
     objects = Tag.objects.cloud_for_model(ctype.model_class())
 
-    return render_to_response('antichaos/tag-cloud.html', dict(
+    return render_to_response('antichaos/tag_cloud.html', dict(
         title = _('Tag cloud for %s') % _(ctype.model),
         ctype = ctype,
         objects = objects,
@@ -37,7 +37,7 @@ def preview(request, ctype_id, tag_id):
     total_count = objects.count()
     objects = objects[:limit]
 
-    return render_to_response('antichaos/tag-preview.html', dict(
+    return render_to_response('antichaos/tag_preview.html', dict(
         tag = tag,
         ctype = ctype,
         objects = objects[:limit],
