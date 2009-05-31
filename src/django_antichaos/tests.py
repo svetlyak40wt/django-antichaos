@@ -2,14 +2,17 @@ from django.test import TestCase
 from django.db import models
 
 from tagging.fields import TagField
-from django_antichaos.utils import get_tagged_models
+from tagging.models import Tag, TaggedItem
+from django_antichaos.utils import *
 
 
 class Post(models.Model):
+    title = models.CharField(max_length = 20)
     tags = TagField()
 
 
 class Link(models.Model):
+    url = models.CharField(max_length = 20)
     tags = TagField()
 
 
@@ -27,4 +30,34 @@ class TagCloudTests(TestCase):
         self.assertEqual(2, len(mods))
         self.assert_(Post in mods)
         self.assert_(Link in mods)
+
+class CommandsTests(TestCase):
+    def setUp(self):
+        self.post_ctype = model_to_ctype(Post)
+        self.link_ctype = model_to_ctype(Link)
+
+        Post(title = 'First post', tags = 'one, two, three').save()
+        Post(title = 'Second post', tags = 'five, six').save()
+
+        Link(url = 'http://blah.com', tags = 'five, seven').save()
+        Link(url = 'http://minor.com', tags = 'two, three').save()
+
+        self.tagids = dict((tag.name, tag.id) for tag in Tag.objects.all())
+
+    def testMerge(self):
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'two').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'five').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'three').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
+
+        t = self.tagids
+        process_commands(self.post_ctype, [
+            'merge %s %s' % (t['three'], t['five']),
+            'merge %s %s' % (t['two'], t['three']),
+        ])
+
+        self.assertEqual(2, TaggedItem.objects.get_by_model(Post, 'two').count())
+        self.assertEqual(0, TaggedItem.objects.get_by_model(Post, 'five').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'three').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
 
