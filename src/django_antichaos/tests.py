@@ -66,3 +66,17 @@ class CommandsTests(TestCase):
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'three').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
 
+    def testRename(self):
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'five').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
+        self.assertEqual(0, TaggedItem.objects.get_by_model(Post, 'new-tag').count())
+
+        t = self.tagids
+        process_commands(self.post_ctype, [
+            'rename %s %s' % (t['five'], 'new-tag'),
+        ])
+
+        self.assertEqual(0, TaggedItem.objects.get_by_model(Post, 'five').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
+        self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'new-tag').count())
+

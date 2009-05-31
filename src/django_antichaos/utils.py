@@ -33,6 +33,16 @@ def process_merge(ctype, tag_left, tag_right):
             logger.debug('item "%s" merged' % item)
 
 
+def process_rename(ctype, old_tag_id, new_name):
+    logger = logging.getLogger('antichaos.utils')
+
+    new_tag, created = Tag.objects.get_or_create(name = new_name)
+    if created:
+        logger.debug('tag "%s" was created' % new_name)
+
+    process_merge(ctype, new_tag.id, old_tag_id)
+
+
 def process_commands(ctype, commands):
     logger = logging.getLogger('antichaos.utils')
     logger.debug('processing commands')
