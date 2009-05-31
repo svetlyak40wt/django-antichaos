@@ -52,8 +52,8 @@ def process_commands(ctype, commands):
             if name.startswith('process_') and name != 'process_commands')
 
     for cmd in commands:
-        cmd, args = cmd.split(' ', 1)
+        cmd, args = cmd.split('|', 1)
         proc = processors.get(cmd, None)
         if proc is not None:
-            proc(ctype, *args.split(' '))
+            proc(ctype, *args.split('|'))
 

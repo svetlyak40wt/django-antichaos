@@ -52,10 +52,11 @@ $(document).ready(function() {
 
                 if (new_value != old_value) {
                     // start history update
+                    // TODO refactor this code duplication!
                     var tag_id = get_tag_id(tag.id);
                     changes_form.append(
                         '<input name="changes" type="hidden" value="' +
-                        'rename' + tag_id + ' ' + new_value + '" />');
+                        'rename|' + tag_id + '|' + new_value + '" />');
 
                     stack[stack.length] = {
                         action: 'rename',
@@ -65,6 +66,7 @@ $(document).ready(function() {
                     history.append(
                         $('<li>' + old_value + ' -> ' + new_value + '</li>')
                     );
+                    $('form.tag-cloud input[disabled]').attr('disabled', false);
                     // end history update
 
                     $(tag).find('span').html(new_value);
@@ -95,7 +97,7 @@ $(document).ready(function() {
             // end history update
             changes_form.append(
                 '<input name="changes" type="hidden" value="' +
-                'merge ' + to_tag_id + ' ' + from_tag_id + '" />');
+                'merge|' + to_tag_id + '|' + from_tag_id + '" />');
 
             stack[stack.length] = {
                 action: 'merge',
@@ -105,6 +107,7 @@ $(document).ready(function() {
             history.append(
                 $('<li>' + to.html() + ' = ' + from.html() + '</li>')
             );
+            $('form.tag-cloud input[disabled]').attr('disabled', false);
             // end history update
 
             var from_count = eval(from.find('sup').html());
@@ -124,7 +127,6 @@ $(document).ready(function() {
             });
 
             ui.draggable.effect('explode');
-            $('form.tag-cloud input[disabled]').attr('disabled', false);
         },
     });
 });
