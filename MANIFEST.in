@@ -1,3 +1,4 @@
 include LICENSE
 include README
 recursive-include src/django_antichaos/templates *.html
+recursive-include src/django_antichaos/media *.js *.css

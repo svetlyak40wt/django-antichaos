@@ -1,6 +1,11 @@
 django-antichaos changes
 ========================
 
+0.1.2
+-----
+
+* Fixed missing 'media' directory was added to MANIFEST.in
+
 0.1.1
 -----
 
