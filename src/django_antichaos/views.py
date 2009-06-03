@@ -9,6 +9,15 @@ from django.core.urlresolvers import reverse
 from django_antichaos.utils import process_commands
 from tagging.models import Tag, TaggedItem
 
+def template_list(model, template_name):
+    app_label = model._meta.app_label
+    module_name = model._meta.module_name
+    _locals = locals()
+    return [
+        'antichaos/%(app_label)s/%(module_name)s/%(template_name)s.html' % _locals,
+        'antichaos/%(app_label)s/%(template_name)s.html' % _locals,
+        'antichaos/%(template_name)s.html' % _locals,
+    ]
 
 def cloud(request, ctype_id):
     admin_index = reverse('admin_index')
@@ -22,14 +31,17 @@ def cloud(request, ctype_id):
         changes = request.POST.getlist('changes')
         process_commands(ctype, changes)
 
-    objects = Tag.objects.cloud_for_model(ctype.model_class())
+    model = ctype.model_class()
+    objects = Tag.objects.cloud_for_model(model)
 
-    return render_to_response('antichaos/tag_cloud.html', dict(
-        title = _('Tag cloud for %s') % _(ctype.model),
-        ctype = ctype,
-        objects = objects,
-        root_path = admin_index,
-    ), context_instance = RequestContext(request))
+    return render_to_response(
+        template_list(model, 'tag_cloud'),
+        dict(
+            title = _('Tag cloud for %s') % _(ctype.model),
+            ctype = ctype,
+            objects = objects,
+            root_path = admin_index,
+        ), context_instance = RequestContext(request))
 
 
 def preview(request, ctype_id, tag_id):
@@ -43,13 +55,11 @@ def preview(request, ctype_id, tag_id):
     app_label = model._meta.app_label
     module_name = model._meta.module_name
 
-    return render_to_response([
-            'antichaos/%(app_label)s/%(module_name)s/tag_preview.html' % locals(),
-            'antichaos/%(app_label)s/tag_preview.html' % locals(),
-            'antichaos/tag_preview.html',
-        ], dict(
-        tag = tag,
-        ctype = ctype,
-        objects = objects,
-    ), context_instance = RequestContext(request))
+    return render_to_response(
+        template_list(model, 'tag_preview'),
+        dict(
+            tag = tag,
+            ctype = ctype,
+            objects = objects,
+        ), context_instance = RequestContext(request))
 

@@ -6,7 +6,10 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" type="text/css" href="{% antichaos_media_prefix %}antichaos.css" />
+{% endblock %}
 
+{% block extrahead %}
+{{ block.super }}
 <script src="{% antichaos_media_prefix %}jquery.js"></script>
 <script src="{% antichaos_media_prefix %}ui.core.js"></script>
 <script src="{% antichaos_media_prefix %}ui.draggable.js"></script>

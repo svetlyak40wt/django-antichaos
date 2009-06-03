@@ -65,8 +65,9 @@ Also, you can modify look of the tag cloud and tooltips. Just override following
 * antichaos/tag_cloud_list.html -- list of available tag clouds.
 * antichaos/tag_preview.html -- list of tagged objects (for tooltip).
 
-By the way, you can override tag_preview.html for particular application or even model.
-Just create `antichaos/app_label/tag_preview.html` or `antichaos/app_label/model_name/tag_preview.html`.
+By the way, you can override tag_preview.html and tag_cloud.html for particular
+application or even model. Just create `antichaos/app_label/tag_preview.html` or
+`antichaos/app_label/model_name/tag_preview.html`.
 
 TODO
 ----

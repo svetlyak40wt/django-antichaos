@@ -7,7 +7,8 @@ django-antichaos changes
 * Fixed missing 'media' directory was added to MANIFEST.in
 * Removed limit on 'objects' count for tag preview. Use 'slice'
   filter in the template.
-* Added ability to override tag_preview.html for model or application.
+* Added ability to override `tag_preview.html` and `tag_cloud.html`
+  for model or application.
 
 0.1.1
 -----
