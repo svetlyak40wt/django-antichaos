@@ -1,7 +1,7 @@
 from pdb import set_trace
 
 from django.shortcuts import render_to_response, redirect
-from django.template import RequestContext
+from django.template import RequestContext, TemplateDoesNotExist
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
@@ -37,10 +37,17 @@ def preview(request, ctype_id, tag_id):
 
     tag = Tag.objects.get(id = tag_id)
 
-    objects = TaggedItem.objects.get_by_model(
-        ctype.model_class(), tag)
+    model = ctype.model_class()
+    objects = TaggedItem.objects.get_by_model(model, tag)
 
-    return render_to_response('antichaos/tag_preview.html', dict(
+    app_label = model._meta.app_label
+    module_name = model._meta.module_name
+
+    return render_to_response([
+            'antichaos/%(app_label)s/%(module_name)s/tag_preview.html' % locals(),
+            'antichaos/%(app_label)s/tag_preview.html' % locals(),
+            'antichaos/tag_preview.html',
+        ], dict(
         tag = tag,
         ctype = ctype,
         objects = objects,
