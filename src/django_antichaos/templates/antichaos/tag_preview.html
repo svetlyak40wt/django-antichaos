@@ -3,12 +3,14 @@
     <table>
         <caption>{% blocktrans with tag.name as tag_name %}Objects with tag "{{ tag_name }}"{% endblocktrans %}</caption>
         <tbody>
-        {% for object in objects %}
+        {% for object in objects|slice:":5" %}
             <tr><td>{{ object }}</td></tr>
         {% endfor %}
-        {% if more %}
-            <tr><td>{% blocktrans %}{{ more }} more.{% endblocktrans %}</td></tr>
-        {% endif %}
+        {% with objects|slice:"5:" as reminder %}
+            {% if reminder %}
+                <tr><td>{% blocktrans with reminder|length as count %}{{ count }} more.{% endblocktrans %}</td></tr>
+            {% endif %}
+        {% endwith %}
         </tbody>
     </table>
 </div>

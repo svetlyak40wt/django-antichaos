@@ -40,14 +40,9 @@ def preview(request, ctype_id, tag_id):
     objects = TaggedItem.objects.get_by_model(
         ctype.model_class(), tag)
 
-    limit = request.GET.get('limit', 5)
-    total_count = objects.count()
-    objects = objects[:limit]
-
     return render_to_response('antichaos/tag_preview.html', dict(
         tag = tag,
         ctype = ctype,
-        objects = objects[:limit],
-        more = total_count - len(objects),
+        objects = objects,
     ), context_instance = RequestContext(request))
 

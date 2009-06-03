@@ -5,6 +5,8 @@ django-antichaos changes
 -----
 
 * Fixed missing 'media' directory was added to MANIFEST.in
+* Removed limit on 'objects' count for tag preview. Use 'slice'
+  filter in the template.
 
 0.1.1
 -----
