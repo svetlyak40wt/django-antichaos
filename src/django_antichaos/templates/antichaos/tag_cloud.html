@@ -40,6 +40,11 @@
             <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}"><span>{{ tag.name }}</span><sup>{{ tag.count }}</sup></li>
         {% endfor %}
         </ul>
+        <script type="text/javascript">
+            {% block init-antichaos %}
+                init_antichaos(5);
+            {% endblock %}
+        </script>
     </div>
 {% endblock %}
 

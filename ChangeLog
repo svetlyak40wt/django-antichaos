@@ -9,6 +9,9 @@ django-antichaos changes
   filter in the template.
 * Added ability to override `tag_preview.html` and `tag_cloud.html`
   for model or application.
+* Added AJAX pager to the preview. Also, number of previews can be
+  changed in template `tag_cloud.html`. To do that, override
+  `init-antichaos` block.
 
 0.1.1
 -----

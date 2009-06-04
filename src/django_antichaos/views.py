@@ -49,6 +49,10 @@ def preview(request, ctype_id, tag_id):
 
     tag = Tag.objects.get(id = tag_id)
 
+    skip = int(request.GET.get('skip', 0))
+    top = int(request.GET.get('top', 5))
+    next_skip = skip + top
+
     model = ctype.model_class()
     objects = TaggedItem.objects.get_by_model(model, tag)
 
@@ -60,6 +64,9 @@ def preview(request, ctype_id, tag_id):
         dict(
             tag = tag,
             ctype = ctype,
-            objects = objects,
+            objects = objects[skip:next_skip],
+            skip = next_skip,
+            top = top,
+            more = len(objects[next_skip:]),
         ), context_instance = RequestContext(request))
 

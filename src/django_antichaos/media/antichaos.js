@@ -1,5 +1,8 @@
 var stack = [];
 var tip;
+var more_click = false;
+var tooltip_timer;
+var num_previews = 5;
 
 function get_tag_id(tag_id)
 {
@@ -7,11 +10,35 @@ function get_tag_id(tag_id)
     return tag_id.substring(4, tag_id.length);
 }
 
+function stop_timer()
+{
+    clearTimeout(tooltip_timer);
+    tooltip_timer = undefined;
+}
+
+function update_tooltip(tooltip, data)
+{
+    var div = $(data);
+    div.find('a.more').click( function(evt) {
+        evt.preventDefault();
+        more_click = true;
+        stop_timer();
+        $.get(this, function(data) {
+            update_tooltip(tooltip, data);
+        });
+    });
+    tooltip.update(div);
+}
+
+function init_antichaos(top)
+{
+    num_previews = top;
+}
+
 $(document).ready(function() {
     var history = $('.history');
     var changes_form = $('form.tag-cloud');
     var tooltips_cache = {};
-    var tooltip_timer;
 
     $('.tag').each(function (i, tag) {
         $(tag).simpletip({
@@ -19,27 +46,31 @@ $(document).ready(function() {
             position: [$(tag).width(), 0],
             onBeforeShow: function() {
                 var tooltip = this;
+                var tag_id = get_tag_id($(tag).attr('id'));
 
-                tooltip_timer = setTimeout(function() {
-                    var tag_id = get_tag_id($(tag).attr('id'));
-                    if (tooltips_cache[tag_id]) {
-                        this.update(tooltips_cache[tag_id]);
+                if (tooltips_cache[tag_id]) {
+                    if (more_click == true) {
+                        more_click = false;
                     } else {
-                        var url = 'preview/' + tag_id + '/';
-                        $.get(url, function(data) {
-                            tooltips_cache[tag_id] = data;
-                            tooltip.update(data);
-                        });
+                        update_tooltip(tooltip, tooltips_cache[tag_id]);
                     }
-                }, 3000);
+                } else {
+                    tooltip_timer = setTimeout(function() {
+                            var url = 'preview/' + tag_id + '/?top=' + num_previews;
+                            $.get(url, function(data) {
+                                tooltips_cache[tag_id] = data;
+                                update_tooltip(tooltip, data);
+                            });
+                    }, 3000);
+                }
             },
             onHide: function() {
-                clearTimeout(tooltip_timer);
+                stop_timer();
             }
         });
 
         $(tag).dblclick(function() {
-            clearTimeout(tooltip_timer);
+            stop_timer();
 
             var old_value = $(tag).find('span').html();
             var form = $('<form><input name="text" type="text" value="' + old_value + '" /></form>');

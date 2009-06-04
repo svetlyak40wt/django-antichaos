@@ -1,16 +1,19 @@
 {% load i18n %}
-<div class="module">
+<div id="tag_preview_{{ tag.id }}" class="module">
     <table>
         <caption>{% blocktrans with tag.name as tag_name %}Objects with tag "{{ tag_name }}"{% endblocktrans %}</caption>
         <tbody>
-        {% for object in objects|slice:":5" %}
-            <tr><td>{{ object }}</td></tr>
+        {% block previews %}
+        {% for object in objects %}
+            <tr><td>{% block object %}{{ object }}{% endblock %}</td></tr>
         {% endfor %}
-        {% with objects|slice:"5:" as reminder %}
-            {% if reminder %}
-                <tr><td>{% blocktrans with reminder|length as count %}{{ count }} more.{% endblocktrans %}</td></tr>
+        {% endblock %}
+
+        {% block more %}
+            {% if more %}
+                <tr><td><a href="{% url tag-preview ctype.id tag.id %}?skip={{ skip }}&top={{ top }}" class="more">{% blocktrans with more as count %}{{ count }} more{% endblocktrans %}</a>.</td></tr>
             {% endif %}
-        {% endwith %}
+        {% endblock %}
         </tbody>
     </table>
 </div>
