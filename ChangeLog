@@ -1,6 +1,14 @@
 django-antichaos changes
 ========================
 
+0.1.3
+-----
+
+* Support for trunk of the plain django-tagging (from
+  http://code.google.com/p/django-tagging/)
+* Added buildout section to create separate django and tests
+  runners for plaing tagging and tagging-ng.
+
 0.1.2
 -----
 

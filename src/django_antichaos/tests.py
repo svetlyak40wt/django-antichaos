@@ -55,7 +55,8 @@ class CommandsTests(TestCase):
         self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'five').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'three').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
-        self.assertEqual('one three two', Post.objects.get(id=self.post1.id).tags)
+        tags_after = Post.objects.get(id=self.post1.id).tags
+        self.assert_(tags_after == 'one three two' or tags_after == 'one, two, three' )
 
         t = self.tagids
         process_commands(self.post_ctype, [
