@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bin/django shell
+bin/django$1 shell

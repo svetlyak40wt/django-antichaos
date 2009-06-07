@@ -1,3 +1,3 @@
 #!/bin/bash
 
-bin/django runserver 0.0.0.0:8000
+bin/django$1 runserver 0.0.0.0:8000
