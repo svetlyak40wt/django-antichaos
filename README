@@ -72,6 +72,7 @@ application or even model. Just create `antichaos/app_label/tag_preview.html` or
 TODO
 ----
 
+* Add check for rights to create link for 'media'.
 * Add Undo/Redo.
 
 DONE
