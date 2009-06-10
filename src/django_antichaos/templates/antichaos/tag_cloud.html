@@ -37,7 +37,7 @@
 
         <ul class="tag-cloud">
         {% for tag in objects %}
-            <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}"><span>{{ tag.name }}</span><sup>{{ tag.count }}</sup></li>
+            <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}"><span>{% firstof tag.name tag.name_any %}</span><sup>{{ tag.count }}</sup></li>
         {% endfor %}
         </ul>
         <script type="text/javascript">
