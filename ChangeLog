@@ -1,6 +1,12 @@
 django-antichaos changes
 ========================
 
+0.1.4
+-----
+
+* Fixed annoying word wrapping in the tag cloud.
+* Added support of language fallback for multilingual tags.
+
 0.1.3
 -----
 
