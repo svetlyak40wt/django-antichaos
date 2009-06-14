@@ -36,13 +36,18 @@
         {{ model_name }}
 
         <ul class="tag-cloud">
+        {% comment %}
         {% for tag in objects %}
             <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}"><span>{% firstof tag.name tag.name_any %}</span><sup>{{ tag.count }}</sup></li>
         {% endfor %}
+        {% endcomment %}
         </ul>
         <script type="text/javascript">
             {% block init-antichaos %}
-                init_antichaos(5);
+                init_antichaos({
+                    top: 5,
+                    cloud_json_url: '?json=1'
+                });
             {% endblock %}
         </script>
     </div>

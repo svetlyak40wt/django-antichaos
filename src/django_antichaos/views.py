@@ -36,7 +36,7 @@ def cloud(request, ctype_id):
     json = request.GET.get('json', False)
 
     model = ctype.model_class()
-    objects = Tag.objects.cloud_for_model(model)
+    objects = Tag.objects.usage_for_model(model, counts = True)
 
     data = dict(
         title = _('Tag cloud for %s') % _(ctype.model),
@@ -48,7 +48,9 @@ def cloud(request, ctype_id):
     if json:
         data['objects'] = [
             dict(
-                name = tag.name
+                id = tag.id,
+                name = tag.name or tag.name_any,
+                count = tag.count,
             ) for tag in objects]
         data['ctype'] = ctype.id
         data = simplejson.dumps(data)
