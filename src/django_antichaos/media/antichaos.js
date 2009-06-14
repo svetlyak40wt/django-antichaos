@@ -3,12 +3,11 @@ var Antichaos = {
     cloud_json_url: '?json',
     font_size_from: 1,
     font_size_to: 4,
+    stack: [],
+    more_click: false,
+    tooltip_timer: undefined,
+    num_previews: 5
 };
-var stack = [];
-var tip;
-var more_click = false;
-var tooltip_timer;
-var num_previews = 5;
 
 function get_tag_id(tag_id)
 {
@@ -18,8 +17,8 @@ function get_tag_id(tag_id)
 
 function stop_timer()
 {
-    clearTimeout(tooltip_timer);
-    tooltip_timer = undefined;
+    clearTimeout(Antichaos.tooltip_timer);
+    Antichaos.tooltip_timer = undefined;
 }
 
 function update_tooltip(tooltip, data)
@@ -27,7 +26,7 @@ function update_tooltip(tooltip, data)
     var div = $(data);
     div.find('a.more').click( function(evt) {
         evt.preventDefault();
-        more_click = true;
+        Antichaos.more_click = true;
         stop_timer();
         $.get(this, function(data) {
             update_tooltip(tooltip, data);
@@ -38,7 +37,7 @@ function update_tooltip(tooltip, data)
 
 function init_antichaos(params)
 {
-    num_previews = params.top;
+    Antichaos.num_previews = params.top;
     Antichaos.cloud_json_url = params.cloud_json_url;
 }
 
@@ -86,7 +85,7 @@ function make_tags_draggable()
                 '<input name="changes" type="hidden" value="' +
                 'merge|' + to_tag_id + '|' + from_tag_id + '" />');
 
-            stack[stack.length] = {
+            Antichaos.stack[Antichaos.stack.length] = {
                 action: 'merge',
                 from: from_tag_id,
                 to:     to_tag_id
@@ -130,14 +129,14 @@ function add_tooltips()
                 var tag_id = get_tag_id($(tag).attr('id'));
 
                 if (Antichaos.tooltips_cache[tag_id]) {
-                    if (more_click == true) {
-                        more_click = false;
+                    if (Antichaos.more_click == true) {
+                        Antichaos.more_click = false;
                     } else {
                         update_tooltip(tooltip, Antichaos.tooltips_cache[tag_id]);
                     }
                 } else {
-                    tooltip_timer = setTimeout(function() {
-                            var url = 'preview/' + tag_id + '/?top=' + num_previews;
+                    Antichaos.tooltip_timer = setTimeout(function() {
+                            var url = 'preview/' + tag_id + '/?top=' + Antichaos.num_previews;
                             $.get(url, function(data) {
                                 Antichaos.tooltips_cache[tag_id] = data;
                                 update_tooltip(tooltip, data);
@@ -175,7 +174,7 @@ function make_tags_editable()
                         '<input name="changes" type="hidden" value="' +
                         'rename|' + tag_id + '|' + new_value + '" />');
 
-                    stack[stack.length] = {
+                    Antichaos.stack[Antichaos.stack.length] = {
                         action: 'rename',
                         tag_id: tag_id,
                         new_value: new_value
