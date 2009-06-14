@@ -1,8 +1,10 @@
 from pdb import set_trace
 
+from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext, TemplateDoesNotExist
 from django.contrib.contenttypes.models import ContentType
+from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
@@ -31,17 +33,31 @@ def cloud(request, ctype_id):
         changes = request.POST.getlist('changes')
         process_commands(ctype, changes)
 
+    json = request.GET.get('json', False)
+
     model = ctype.model_class()
     objects = Tag.objects.cloud_for_model(model)
 
+    data = dict(
+        title = _('Tag cloud for %s') % _(ctype.model),
+        ctype = ctype,
+        objects = objects,
+        root_path = admin_index,
+    )
+
+    if json:
+        data['objects'] = [
+            dict(
+                name = tag.name
+            ) for tag in objects]
+        data['ctype'] = ctype.id
+        data = simplejson.dumps(data)
+        return HttpResponse(data, 'text/html')
+
     return render_to_response(
         template_list(model, 'tag_cloud'),
-        dict(
-            title = _('Tag cloud for %s') % _(ctype.model),
-            ctype = ctype,
-            objects = objects,
-            root_path = admin_index,
-        ), context_instance = RequestContext(request))
+        data,
+        context_instance = RequestContext(request))
 
 
 def preview(request, ctype_id, tag_id):
