@@ -1,5 +1,7 @@
 var Antichaos = {
-    tag_cloud_id: 'ul.tag-cloud',
+    tag_cloud_selector: 'ul.tag-cloud',
+    history_selector: 'ul.history',
+    form_selector: 'form.tag-cloud',
     cloud_json_url: '?json',
     font_size_from: 1,
     font_size_to: 4,
@@ -57,7 +59,7 @@ function create_tags(data) {
     Antichaos.max_count = max;
     Antichaos.min_count = min;
 
-    var cloud = $(Antichaos.tag_cloud_id);
+    var cloud = $(Antichaos.tag_cloud_selector);
     $.each(data.objects, function(i, tag) {
         var size = get_tag_size(tag.count);
         cloud.append('<li id="tag_' + tag.id + '" class="tag" style="font-size: ' + size + 'em"><span>' + tag.name + '</span><sup>' + tag.count + '</sup></li> ');
@@ -199,6 +201,9 @@ function make_tags_editable()
 
 function create_tag_cloud()
 {
+    Antichaos.history = $(Antichaos.history_selector);
+    Antichaos.changes_form = $(Antichaos.form_selector);
+
     $.getJSON(
         Antichaos.cloud_json_url,
         function(data) {
@@ -211,7 +216,5 @@ function create_tag_cloud()
 }
 
 $(document).ready(function() {
-    Antichaos.history = $('.history');
-    Antichaos.changes_form = $('form.tag-cloud');
     create_tag_cloud();
 });
