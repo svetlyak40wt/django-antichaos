@@ -36,17 +36,16 @@
         {{ model_name }}
 
         <ul class="tag-cloud">
-        {% comment %}
-        {% for tag in objects %}
-            <li id="tag_{{tag.id}}" class="tag c{{ tag.font_size }}"><span>{% firstof tag.name tag.name_any %}</span><sup>{{ tag.count }}</sup></li>
-        {% endfor %}
-        {% endcomment %}
+            <p class="inprogress">{% trans 'Please wait while tag cloud loaded.' %}</p>
         </ul>
         <script type="text/javascript">
             {% block init-antichaos %}
                 init_antichaos({
                     top: 5,
-                    cloud_json_url: '?json=1'
+                    cloud_json_url: '?json=1',
+                    on_cloud_load_end: function() {
+                        $('.inprogress').hide();
+                    }
                 });
             {% endblock %}
         </script>
@@ -60,7 +59,7 @@
             <ul class="history">
             </ul>
             <form class="tag-cloud" action="" method="POST" >
-                <input type="submit" value="{% trans 'Undo' %}" disabled="true"/>
+                <input class="undo" type="submit" value="{% trans 'Undo' %}" disabled="true"/>
                 <input type="submit" value="{% trans 'Apply' %}" disabled="true"/>
             </form>
         </div>

@@ -1,6 +1,13 @@
 django-antichaos changes
 ========================
 
+0.1.5
+-----
+
+* Client side tagcloud calculation was added, now all tags
+  have proper sizes after merge.
+* Added UNDO for all operations.
+
 0.1.4
 -----
 

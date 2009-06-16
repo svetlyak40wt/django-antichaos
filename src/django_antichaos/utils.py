@@ -30,40 +30,40 @@ def update_objects_tags(object):
             break
 
 
-def process_merge(ctype, tag_left, tag_right):
+def process_merge(ctype, to_tag, from_tag):
     logger = logging.getLogger('antichaos.utils')
 
-    tag_left = Tag.objects.get(id=tag_left)
-    tag_right = Tag.objects.get(id=tag_right)
+    to_tag = Tag.objects.get(id=to_tag)
+    from_tag = Tag.objects.get(id=from_tag)
 
-    logger.debug('merging tag "%s" to tag "%s"' % (tag_right.name, tag_left.name))
+    logger.debug('merging tag "%s" to_tag tag "%s"' % (from_tag.name, to_tag.name))
 
     delete_params = {}
     if hasattr(settings, 'MULTILINGUAL_TAGS') is True:
         """Specialization for tagging-ng's delete method."""
         delete_params['update'] = False
 
-    for item in tag_right.items.filter(content_type = ctype):
-        if tag_left.items.filter(
+    for item in from_tag.items.filter(content_type = ctype):
+        if to_tag.items.filter(
                 content_type = ctype,
                 object_id = item.object_id).count() != 0:
-            logger.debug('item "%s" already binded to tag "%s"' % (item, tag_left))
+            logger.debug('item "%s" already binded to_tag tag "%s"' % (item, to_tag))
             item.delete(**delete_params)
         else:
-            item.tag = tag_left
+            item.tag = to_tag
             item.save()
             logger.debug('item "%s" merged' % item)
 
         update_objects_tags(item.object)
 
-def process_rename(ctype, old_tag_id, new_name):
+def process_rename(ctype, tag_id, new_value):
     logger = logging.getLogger('antichaos.utils')
 
-    new_tag, created = Tag.objects.get_or_create(name = new_name)
+    new_tag, created = Tag.objects.get_or_create(name = new_value)
     if created:
-        logger.debug('tag "%s" was created' % new_name)
+        logger.debug('tag "%s" was created' % new_value)
 
-    process_merge(ctype, new_tag.id, old_tag_id)
+    process_merge(ctype, new_tag.id, tag_id)
 
 
 def process_commands(ctype, commands):
@@ -75,8 +75,11 @@ def process_commands(ctype, commands):
             if name.startswith('process_') and name != 'process_commands')
 
     for cmd in commands:
-        cmd, args = cmd.split('|', 1)
-        proc = processors.get(cmd, None)
+        kwargs = dict(
+            (str(key), value) for key, value in (
+                c.split('=') for c in cmd.split(',') if c))
+        action = kwargs.pop('action')
+        proc = processors.get(action, None)
         if proc is not None:
-            proc(ctype, *args.split('|'))
+            proc(ctype, **kwargs)
 

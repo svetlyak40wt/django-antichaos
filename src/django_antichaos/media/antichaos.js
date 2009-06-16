@@ -2,13 +2,17 @@ var Antichaos = {
     tag_cloud_selector: 'ul.tag-cloud',
     history_selector: 'ul.history',
     form_selector: 'form.tag-cloud',
+    undo_selector: 'input.undo',
     cloud_json_url: '?json',
     font_size_from: 1,
     font_size_to: 4,
     stack: [],
     more_click: false,
     tooltip_timer: undefined,
-    num_previews: 5
+    num_previews: 5,
+    stack_position: 0,
+    on_cloud_load_start: function(){},
+    on_cloud_load_end: function(){}
 };
 
 function get_tag_id(tag_id)
@@ -39,8 +43,7 @@ function update_tooltip(tooltip, data)
 
 function init_antichaos(params)
 {
-    Antichaos.num_previews = params.top;
-    Antichaos.cloud_json_url = params.cloud_json_url;
+    Antichaos = $.extend(Antichaos, params)
 }
 
 function get_tag_size(count) {
@@ -66,6 +69,52 @@ function create_tags(data) {
     });
 }
 
+function push_stack(params)
+{
+    var form_item = '<input name="changes" type="hidden" value="';
+
+    $.each(params.data, function(key, value) {
+        form_item += key + '=' + value + ','
+    });
+    form_item += '" />';
+    form_item = $(form_item);
+
+    var history_item = $('<li>' + params.message + '</li>');
+
+    params.data.history_item = history_item;
+    params.data.form_item = form_item;
+    params.data.undo = params.undo;
+
+    Antichaos.stack[Antichaos.stack_position++] = params.data;
+    Antichaos.history.append(history_item);
+    Antichaos.changes_form.append(form_item);
+    $('form.tag-cloud input[disabled]').attr('disabled', false);
+}
+
+function pop_stack()
+{
+    var stack_item = Antichaos.stack[--Antichaos.stack_position];
+    stack_item.undo(stack_item);
+    delete Antichaos.stack[Antichaos.stack_position];
+    if (Antichaos.stack_position == 0) {
+        $('form.tag-cloud input').attr('disabled', true);
+    }
+}
+
+function init_undo_button()
+{
+    $(Antichaos.undo_selector).click(function(evt) {
+        evt.preventDefault();
+        pop_stack();
+    });
+}
+
+function base_item_undo(item)
+{
+    item.history_item.remove();
+    item.form_item.remove();
+}
+
 function make_tags_draggable()
 {
     $('.tag').draggable().droppable({
@@ -81,22 +130,6 @@ function make_tags_draggable()
 
             var to_tag_id = to[0].id;
             to_tag_id = to_tag_id.substring(4, to_tag_id.length);
-
-            // end history update
-            Antichaos.changes_form.append(
-                '<input name="changes" type="hidden" value="' +
-                'merge|' + to_tag_id + '|' + from_tag_id + '" />');
-
-            Antichaos.stack[Antichaos.stack.length] = {
-                action: 'merge',
-                from: from_tag_id,
-                to:     to_tag_id
-            };
-            Antichaos.history.append(
-                $('<li>' + to.find('span').html() + ' = ' + from.find('span').html() + '</li>')
-            );
-            $('form.tag-cloud input[disabled]').attr('disabled', false);
-            // end history update
 
             var from_count = eval(from.find('sup').html());
             var from_size = from.css('font-size');
@@ -114,6 +147,29 @@ function make_tags_draggable()
             });
 
             ui.draggable.effect('explode');
+
+            push_stack({
+                data: {
+                    action: 'merge',
+                    from_tag:   from_tag_id,
+                    to_tag:     to_tag_id,
+                },
+                message: to.find('span').html() + ' = ' + from.find('span').html(),
+                undo: function(item) {
+                    base_item_undo(item);
+
+                    to.find('sup').html(to_count);
+                    to.animate({
+                        fontSize: get_tag_size(to_count) + 'em',
+                    });
+
+                    ui.draggable.show().css('opacity', 0).animate({
+                        opacity: 1,
+                        left: 0,
+                        top: 0
+                    });
+                }
+            });
         }
     });
 }
@@ -169,23 +225,18 @@ function make_tags_editable()
                 form.remove();
 
                 if (new_value != old_value) {
-                    // start history update
-                    // TODO refactor this code duplication!
-                    var tag_id = get_tag_id(tag.id);
-                    Antichaos.changes_form.append(
-                        '<input name="changes" type="hidden" value="' +
-                        'rename|' + tag_id + '|' + new_value + '" />');
-
-                    Antichaos.stack[Antichaos.stack.length] = {
-                        action: 'rename',
-                        tag_id: tag_id,
-                        new_value: new_value
-                    };
-                    Antichaos.history.append(
-                        $('<li>' + old_value + ' -> ' + new_value + '</li>')
-                    );
-                    $('form.tag-cloud input[disabled]').attr('disabled', false);
-                    // end history update
+                    push_stack({
+                        data: {
+                            action:    'rename',
+                            tag_id:    get_tag_id(tag.id),
+                            new_value: new_value
+                        },
+                        message: old_value + ' -> ' + new_value,
+                        undo: function(item) {
+                            base_item_undo(item);
+                            $(tag).find('span').html(old_value);
+                        }
+                    });
 
                     $(tag).find('span').html(new_value);
                 }
@@ -203,6 +254,7 @@ function create_tag_cloud()
 {
     Antichaos.history = $(Antichaos.history_selector);
     Antichaos.changes_form = $(Antichaos.form_selector);
+    Antichaos.on_cloud_load_start();
 
     $.getJSON(
         Antichaos.cloud_json_url,
@@ -211,6 +263,8 @@ function create_tag_cloud()
             make_tags_draggable();
             add_tooltips();
             make_tags_editable();
+            init_undo_button();
+            Antichaos.on_cloud_load_end();
         }
     )
 }

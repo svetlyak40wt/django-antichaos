@@ -72,9 +72,6 @@ application or even model. Just create `antichaos/app_label/tag_preview.html` or
 TODO
 ----
 
-* Add check for rights to create link for 'media'.
-* Add Undo/Redo.
-
 DONE
 ----
 
@@ -86,6 +83,9 @@ DONE
 * Added tag preview.
 * Added tag renaming.
 * Added ability to load bookmarks from a file in Netscape Bookmarks format.
+* Added Undo/Redo.
+* Added progress indicator while tag cloud loaded.
+
 
 Contacts
 --------
