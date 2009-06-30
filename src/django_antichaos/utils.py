@@ -20,7 +20,7 @@ def update_objects_tags(object):
     if object is None:
         return
 
-    object_tags = Tag.objects.get_for_object(object)
+    object_tags = (tag.name or tag.name_any for tag in Tag.objects.get_for_object(object))
     tags_as_string = edit_string_for_tags(object_tags)
 
     for field in object._meta.fields:
