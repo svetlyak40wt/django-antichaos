@@ -1,12 +1,15 @@
 from pdb import set_trace
+import os.path
+from datetime import datetime
 
+from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext, TemplateDoesNotExist
-from django.contrib.contenttypes.models import ContentType
 from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
 
 from django_antichaos.utils import process_commands
 from tagging.models import Tag, TaggedItem
@@ -31,7 +34,12 @@ def cloud(request, ctype_id):
 
     if request.method == 'POST':
         changes = request.POST.getlist('changes')
-        process_commands(ctype, changes)
+
+        save_to = getattr(settings, 'ANTICHAOS_SAVE_DIR', None)
+        if save_to is not None:
+            save_to = os.path.join(save_to, datetime.now().strftime('%y%m%d-%H%M%S.csv'))
+
+        process_commands(ctype, changes, save_to)
 
     json = request.GET.get('json', False)
 

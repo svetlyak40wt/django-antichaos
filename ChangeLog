@@ -1,6 +1,16 @@
 django-antichaos changes
 ========================
 
+0.1.6
+-----
+
+* Added management command `antichaos_process_rules` to
+  run previously saved rules on the database.
+* Added ability to store commands in a separate directory
+  to reapply them using management command.
+* Fixed error with multilingual tag processing, when there
+  is no default tag name and need to use fallback instead.
+
 0.1.5
 -----
 

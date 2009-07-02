@@ -30,6 +30,6 @@ class Command(BaseCommand):
 
         for file in files:
             print 'Processing commands from "%s"' % file
-            process_commands(ctype, iter(open(file)))
+            process_commands(ctype, open(file).readlines())
         print 'Done'
 

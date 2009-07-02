@@ -66,7 +66,7 @@ def process_rename(ctype, tag_id, new_value):
     process_merge(ctype, new_tag.id, tag_id)
 
 
-def process_commands(ctype, commands):
+def process_commands(ctype, commands, save_to = None):
     logger = logging.getLogger('antichaos.utils')
     logger.debug('processing commands')
 
@@ -74,7 +74,16 @@ def process_commands(ctype, commands):
         for name, value in globals().iteritems()
             if name.startswith('process_') and name != 'process_commands')
 
+    if save_to != None:
+        file = open(save_to, 'w')
+        file.write('# model "%s.%s"\n' % (ctype.app_label, ctype.model))
+        file.writelines(cmd.strip(',') + '\n' for cmd in commands)
+
     for cmd in commands:
+        cmd = cmd.strip()
+        if cmd.startswith('#'):
+            continue
+
         kwargs = dict(
             (str(key), value) for key, value in (
                 c.split('=') for c in cmd.split(',') if c))

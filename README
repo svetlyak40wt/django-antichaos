@@ -69,6 +69,21 @@ By the way, you can override tag_preview.html and tag_cloud.html for particular
 application or even model. Just create `antichaos/app_label/tag_preview.html` or
 `antichaos/app_label/model_name/tag_preview.html`.
 
+Management command
+------------------
+
+django-antichaos allows to save actions in a plain text files and to replay them
+using management command `antichaos_process_rules`. This can be useful, when you
+want to experiment on the preproduction site, and then apply these changes to a
+production.
+
+To save all actions, add in the settings.py following option: `ANTICHAOS_DATA_DIR='/some/directory'`.
+
+These file can contian comments and rules. Comment line must be started with #, any other lines
+considered as rules for antichaos.
+
+To play rules, just enter `./django antichaos_process_rules --model blog.entry rules.sql`, for example.
+
 TODO
 ----
 
