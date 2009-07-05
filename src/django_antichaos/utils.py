@@ -77,7 +77,8 @@ def process_commands(ctype, commands, save_to = None):
     if save_to != None:
         file = open(save_to, 'w')
         file.write('# model "%s.%s"\n' % (ctype.app_label, ctype.model))
-        file.writelines(cmd.strip(',') + '\n' for cmd in commands)
+        lines = list(cmd.strip(',').encode('utf-8') + '\n' for cmd in commands)
+        file.writelines(lines)
 
     for cmd in commands:
         cmd = cmd.strip()

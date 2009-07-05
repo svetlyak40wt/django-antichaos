@@ -5,6 +5,7 @@ django-antichaos changes
 -----
 
 * Fixed default JSON URL.
+* Fixed error on saving unicode strings to the file.
 
 0.1.6
 -----
