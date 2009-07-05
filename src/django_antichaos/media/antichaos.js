@@ -3,7 +3,7 @@ var Antichaos = {
     history_selector: 'ul.history',
     form_selector: 'form.tag-cloud',
     undo_selector: 'input.undo',
-    cloud_json_url: '?json',
+    cloud_json_url: '?json=1',
     font_size_from: 1,
     font_size_to: 4,
     stack: [],

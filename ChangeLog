@@ -1,6 +1,11 @@
 django-antichaos changes
 ========================
 
+0.1.7pre
+-----
+
+* Fixed default JSON URL.
+
 0.1.6
 -----
 
