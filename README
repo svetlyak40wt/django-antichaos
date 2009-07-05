@@ -77,7 +77,7 @@ using management command `antichaos_process_rules`. This can be useful, when you
 want to experiment on the preproduction site, and then apply these changes to a
 production.
 
-To save all actions, add in the settings.py following option: `ANTICHAOS_DATA_DIR='/some/directory'`.
+To save all actions, add in the settings.py following option: `ANTICHAOS_SAVE_DIR='/some/directory'`.
 
 These file can contian comments and rules. Comment line must be started with #, any other lines
 considered as rules for antichaos.
