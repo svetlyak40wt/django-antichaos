@@ -1,11 +1,13 @@
 django-antichaos changes
 ========================
 
-0.1.7pre
+0.1.7
 -----
 
+* Fixed name of admin view to work with Django trunk. admin_index -> admin:index.
 * Fixed default JSON URL.
 * Fixed error on saving unicode strings to the file.
+* Fixed default JSON URL.
 
 0.1.6
 -----
