@@ -25,7 +25,7 @@ def template_list(model, template_name):
     ]
 
 def cloud(request, ctype_id):
-    admin_index = reverse('admin_index')
+    admin_index = reverse('admin:index')
 
     if request.user.is_staff == False:
         return redirect(admin_index)
