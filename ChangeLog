@@ -1,6 +1,13 @@
 django-antichaos changes
 ========================
 
+0.1.8
+-----
+
+* Now we use 'tagging.utils.merge' function, when working with
+  django-tagging-ng, cause it is able to create synonyms from deleted
+  tags. So tagging-ng must be >= 0.3.2.
+
 0.1.7
 -----
 
