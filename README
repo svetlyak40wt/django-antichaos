@@ -26,8 +26,8 @@ There are few major features of django-antichaos:
 Dependencies
 ------------
 
-This project depends on latest (>=0.3_pre) version of [django-tagging][] or
-[django-tagging-ng][].
+This project depends on [django-tagging][] (>=0.3_pre) or
+[django-tagging-ng][] (>=0.3.2).
 
 To load data into example application, you need install BeautifulSoup.
 

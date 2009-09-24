@@ -36,25 +36,27 @@ def process_merge(ctype, to_tag, from_tag):
     to_tag = Tag.objects.get(id=to_tag)
     from_tag = Tag.objects.get(id=from_tag)
 
-    logger.debug('merging tag "%s" to_tag tag "%s"' % (from_tag.name, to_tag.name))
+    logger.debug('merging tag "%s" to tag "%s"' % (from_tag.name, to_tag.name))
 
-    delete_params = {}
-    if hasattr(settings, 'MULTILINGUAL_TAGS') is True:
+    if hasattr(settings, 'MULTILINGUAL_TAGS'):
         """Specialization for tagging-ng's delete method."""
-        delete_params['update'] = False
+        from tagging.utils import merge
+        merge(to_tag, from_tag, ctype)
+        return
 
     for item in from_tag.items.filter(content_type = ctype):
         if to_tag.items.filter(
                 content_type = ctype,
                 object_id = item.object_id).count() != 0:
-            logger.debug('item "%s" already binded to_tag tag "%s"' % (item, to_tag))
-            item.delete(**delete_params)
+            logger.debug('item "%s" already binded to tag "%s"' % (item, to_tag))
+            item.delete()
         else:
             item.tag = to_tag
             item.save()
             logger.debug('item "%s" merged' % item)
 
         update_objects_tags(item.object)
+
 
 def process_rename(ctype, tag_id, new_value):
     logger = logging.getLogger('antichaos.utils')
