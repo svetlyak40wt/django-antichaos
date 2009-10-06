@@ -60,8 +60,8 @@ class CommandsTests(TestCase):
 
         t = self.tagids
         process_commands(self.post_ctype, [
-            'merge|%s|%s' % (t['three'], t['five']),
-            'merge|%s|%s' % (t['two'], t['three']),
+            'action=merge,to_tag=%s,from_tag=%s' % (t['three'], t['five']),
+            'action=merge,to_tag=%s,from_tag=%s' % (t['two'], t['three']),
         ])
 
         self.assertEqual(2, TaggedItem.objects.get_by_model(Post, 'two').count())
@@ -77,7 +77,7 @@ class CommandsTests(TestCase):
 
         t = self.tagids
         process_commands(self.post_ctype, [
-            'rename|%s|%s' % (t['five'], 'new-tag'),
+            'action=rename,tag_id=%s,new_value=%s' % (t['five'], 'new-tag'),
         ])
 
         self.assertEqual(0, TaggedItem.objects.get_by_model(Post, 'five').count())
