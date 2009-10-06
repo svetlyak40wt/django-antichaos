@@ -1,6 +1,12 @@
 django-antichaos changes
 ========================
 
+0.1.9
+-----
+
+* Now command 'merge' can skip missing tags.
+* Fixed tag merging for usual tagging (not for tagging-ng).
+
 0.1.8
 -----
 
