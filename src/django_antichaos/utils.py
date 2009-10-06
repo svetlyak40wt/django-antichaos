@@ -33,8 +33,17 @@ def update_objects_tags(object):
 def process_merge(ctype, to_tag, from_tag):
     logger = logging.getLogger('antichaos.utils')
 
-    to_tag = Tag.objects.get(id=to_tag)
-    from_tag = Tag.objects.get(id=from_tag)
+    try:
+        to_tag = Tag.objects.get(id=to_tag)
+    except Tag.DoesNotExist:
+        logger.error('skip merge from_tag=%(from_tag)s to_tag=%(to_tag)s cause to_tag is missing.' % locals())
+        return
+
+    try:
+        from_tag = Tag.objects.get(id=from_tag)
+    except Tag.DoesNotExist:
+        logger.error('skip merge from_tag=%(from_tag)s to_tag=%(to_tag)s cause from_tag is missing.' % locals())
+        return
 
     logger.debug('merging tag "%s" to tag "%s"' % (from_tag.name, to_tag.name))
 
@@ -65,7 +74,7 @@ def process_rename(ctype, tag_id, new_value):
     if created:
         logger.debug('tag "%s" was created' % new_value)
 
-    process_merge(ctype, new_tag.id, tag_id)
+    process_merge(ctype, to_tag = new_tag.id, from_tag = tag_id)
 
 
 def process_commands(ctype, commands, save_to = None):

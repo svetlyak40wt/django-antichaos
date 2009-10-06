@@ -70,6 +70,18 @@ class CommandsTests(TestCase):
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
         self.assertEqual('one two', Post.objects.get(id=self.post1.id).tags)
 
+    def testMergeFromAbsentTagSkips(self):
+        t = self.tagids
+        process_commands(self.post_ctype, [
+            'action=merge,to_tag=%s,from_tag=%s' % (t['three'], 12345),
+        ])
+
+    def testMergeToAbsentTagSkips(self):
+        t = self.tagids
+        process_commands(self.post_ctype, [
+            'action=merge,to_tag=%s,from_tag=%s' % (12345, t['three']),
+        ])
+
     def testRename(self):
         self.assertEqual(1, TaggedItem.objects.get_by_model(Post, 'five').count())
         self.assertEqual(1, TaggedItem.objects.get_by_model(Link, 'five').count())
