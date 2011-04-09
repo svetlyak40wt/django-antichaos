@@ -1,6 +1,14 @@
 django-antichaos changes
 ========================
 
+0.2.0
+-----
+
+* A special box was added on the tag cloud page. This box
+  always floats around. When there are many tags, it is
+  useful to place a few in this box, and then drop other
+  tags on them, to merge.
+
 0.1.9
 -----
 
