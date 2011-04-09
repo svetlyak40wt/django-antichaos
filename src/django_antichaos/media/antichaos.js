@@ -270,5 +270,36 @@ function create_tag_cloud()
 }
 
 $(document).ready(function() {
+    var actions = $('#recent-actions-module');
+    var chaos_bin = $('<ul id="chaos-bin"></ul>')
+        .css('height', '200px')
+        .css('overflow', 'hidden')
+        .droppable({
+            accept: '.tag',
+            activeClass: 'active',
+            hoverClass:  'hover',
+            drop: function(ev, ui) {
+                var obj = $(ui.draggable);
+                obj
+                    .css('top', 'auto')
+                    .css('left', 'auto')
+                    .css('margin-bottom', '0.5em')
+                    .css('list-style', 'none');
+                $(this).append(obj);
+            }
+        }
+    );
+
+    actions
+        .css('position', 'relative')
+        .css('width', '500px');
+    actions.find('h2').after(chaos_bin);
+
+    var actions_initial_x = actions.position().top;
+
+    $(window).scroll(function (ev) {
+        actions.css('top', $(window).scrollTop());
+    });
+
     create_tag_cloud();
 });

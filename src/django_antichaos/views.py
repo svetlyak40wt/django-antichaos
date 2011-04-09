@@ -1,4 +1,3 @@
-from pdb import set_trace
 import os.path
 from datetime import datetime
 
@@ -7,7 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render_to_response, redirect
-from django.template import RequestContext, TemplateDoesNotExist
+from django.template import RequestContext
 from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
 

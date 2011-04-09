@@ -1,5 +1,6 @@
 ul.tag-cloud {line-height: 4em; padding-left: 0;}
-li.tag {display: inline; list-style: none;}
+ul.tag-cloud li.tag {display: inline; list-style: none;}
+li.tag.ui-draggable-dragging {z-index: 1;}
 
 form.tag-cloud {text-align: right;}
 input[disabled] {display: none;}
