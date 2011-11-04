@@ -58,7 +58,7 @@
             <h2>{% trans 'History' %}</h2>
             <ul class="history">
             </ul>
-            <form class="tag-cloud" action="" method="POST" >
+            <form class="tag-cloud" action="" method="POST" >{% csrf_token %}
                 <input class="undo" type="submit" value="{% trans 'Undo' %}" disabled="true"/>
                 <input type="submit" value="{% trans 'Apply' %}" disabled="true"/>
             </form>
